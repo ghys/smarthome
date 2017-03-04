@@ -14,7 +14,6 @@ import javax.ws.rs.container.ContainerRequestContext;
 import org.eclipse.smarthome.core.auth.Authentication;
 import org.eclipse.smarthome.core.auth.AuthenticationProvider;
 import org.eclipse.smarthome.core.auth.Credentials;
-import org.eclipse.smarthome.io.rest.auth.internal.SmartHomePrincipal;
 
 import com.eclipsesource.jaxrs.provider.security.AuthenticationHandler;
 import com.eclipsesource.jaxrs.provider.security.AuthorizationHandler;

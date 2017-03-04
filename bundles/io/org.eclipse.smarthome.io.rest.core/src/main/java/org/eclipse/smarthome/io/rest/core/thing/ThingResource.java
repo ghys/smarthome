@@ -83,6 +83,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Authorization;
+import io.swagger.annotations.AuthorizationScope;
 
 /**
  * This class acts as a REST resource for things and is registered with the
@@ -295,7 +297,9 @@ public class ThingResource implements SatisfiableRESTResource {
     @DELETE
     @RolesAllowed({ Role.ADMIN })
     @Path("/{thingUID}")
-    @ApiOperation(value = "Removes a thing from the registry. Set \'force\' to __true__ if you want the thing te be removed immediately.")
+    @ApiOperation(value = "Removes a thing from the registry. Set \'force\' to __true__ if you want the thing te be removed immediately.", authorizations = {
+            @Authorization(value = "oauth2", scopes = {
+                    @AuthorizationScope(scope = "things.change", description = "Add, modify and delete things") }) })
     @ApiResponses(value = { @ApiResponse(code = 202, message = "ACCEPTED for asynchronous deletion."),
             @ApiResponse(code = 200, message = "OK, was deleted."),
             @ApiResponse(code = 409, message = "CONFLICT, Thing could not be deleted because it's not managed."),
@@ -384,7 +388,8 @@ public class ThingResource implements SatisfiableRESTResource {
     @RolesAllowed({ Role.ADMIN })
     @Path("/{thingUID}")
     @Consumes(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Updates a thing.")
+    @ApiOperation(value = "Updates a thing.", authorizations = { @Authorization(value = "oauth2", scopes = {
+            @AuthorizationScope(scope = "things.change", description = "Add, modify and delete things") }) })
     @ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 404, message = "Thing not found") })
     public Response update(@HeaderParam(HttpHeaders.ACCEPT_LANGUAGE) @ApiParam(value = "language") String language,

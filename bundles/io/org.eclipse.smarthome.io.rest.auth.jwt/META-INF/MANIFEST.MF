@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Eclipse SmartHome JWT Token Auth Support for REST Interface
+Bundle-SymbolicName: org.eclipse.smarthome.io.rest.auth.jwt
+Bundle-Version: 0.9.0.qualifier
+Bundle-Vendor: Eclipse.org/SmartHome
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: com.eclipsesource.jaxrs.provider.security,
+ io.swagger.annotations,
+ javax.annotation;version="1.2.0",
+ javax.ws.rs,
+ javax.ws.rs.container,
+ javax.ws.rs.core,
+ javax.ws.rs.ext,
+ org.apache.commons.codec.binary,
+ org.eclipse.smarthome.core.auth,
+ org.eclipse.smarthome.io.rest.auth,
+ org.glassfish.jersey.server.internal,
+ org.glassfish.jersey.server.model,
+ org.osgi.framework,
+ org.slf4j
+Bundle-ClassPath: .
+Service-Component: OSGI-INF/*.xml
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: org.eclipse.smarthome.io.rest.auth.jwt.internal.Activator

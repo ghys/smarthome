@@ -8,7 +8,9 @@
 package org.eclipse.smarthome.core.auth;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -18,12 +20,14 @@ import java.util.Set;
  *
  * @author Łukasz Dywicki - Initial contribution and API
  * @author Kai Kreuzer - Added JavaDoc and switched from array to Set
+ * @author Yannick Schaus - Added support for arbitrary claims
  *
  */
 public class Authentication {
 
     private String username;
     private Set<String> roles;
+    private HashMap<String, Object> claims;
 
     /**
      * no-args constructor required by gson
@@ -31,6 +35,7 @@ public class Authentication {
     protected Authentication() {
         this.username = null;
         this.roles = null;
+        this.claims = null;
     }
 
     /**
@@ -39,9 +44,10 @@ public class Authentication {
      * @param username name of the user associated to this authentication instance
      * @param roles a variable list of roles that the user possesses.
      */
-    public Authentication(String username, String... roles) {
+    public Authentication(String username, String[] roles, Map<String, Object> claims) {
         this.username = username;
         this.roles = new HashSet<>(Arrays.asList(roles));
+        this.claims = new HashMap<String, Object>(claims);
     }
 
     /**
@@ -60,6 +66,15 @@ public class Authentication {
      */
     public Set<String> getRoles() {
         return roles;
+    }
+
+    /**
+     * Retrieves the claims of the authenticated user
+     *
+     * @return a map of claims
+     */
+    public Map<String, Object> getClaims() {
+        return claims;
     }
 
 }
