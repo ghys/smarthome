@@ -30,6 +30,7 @@ public class RuntimeCondition extends Condition {
         setConnections(Connection.getConnections(condition.getInputs(), LoggerFactory.getLogger(getClass())));
         setLabel(condition.getLabel());
         setDescription(condition.getDescription());
+        setNegated(condition.getNegated());
     }
 
     /**

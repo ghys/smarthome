@@ -10,6 +10,7 @@ package org.eclipse.smarthome.automation;
 import java.util.Collections;
 import java.util.Map;
 
+import org.eclipse.smarthome.automation.handler.ConditionHandler;
 import org.eclipse.smarthome.automation.type.ConditionType;
 import org.eclipse.smarthome.automation.type.Input;
 import org.eclipse.smarthome.automation.type.Output;
@@ -28,6 +29,11 @@ public class Condition extends Module {
 
     private Map<String, String> inputs;
 
+    /**
+     * Whether the condition should be negated when evaluated.
+     */
+    private boolean negated;
+
     public Condition() {
         super();
     }
@@ -43,6 +49,7 @@ public class Condition extends Module {
     public Condition(String id, String typeUID, Configuration configuration, Map<String, String> inputs) {
         super(id, typeUID, configuration);
         setInputs(inputs);
+        setNegated(false);
     }
 
     /**
@@ -65,6 +72,26 @@ public class Condition extends Module {
         if (inputs != null) {
             this.inputs = inputs;
         }
+    }
+
+    /**
+     * This method is used to get the negated status of this Condition. The result of
+     * {@link ConditionHandler#isSatisfied(Map)} will be negated by the {@link RuleEngine} if the Condition is negated,
+     * preventing a {@link Rule} from being run if the condition is satisfied.
+     *
+     * @return true if the condition is negated, false otherwise.
+     */
+    public boolean getNegated() {
+        return negated;
+    }
+
+    /**
+     * This method is used to set the negated status of the Condition.
+     *
+     * @param negated boolean the negated status
+     */
+    public void setNegated(boolean negated) {
+        this.negated = negated;
     }
 
 }

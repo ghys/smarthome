@@ -828,7 +828,9 @@ public class RuleEngine implements RegistryChangeListener<ModuleType> {
                 executeActions(rule, true);
                 logger.debug("The rule '{}' is executed.", rUID);
             } else {
-                logger.debug("The rule '{}' is NOT executed, since it has unsatisfied conditions.", rUID);
+                logger.debug(
+                        "The rule '{}' is NOT executed, since it has unsatisfied conditions or satisfied negated conditions.",
+                        rUID);
             }
         } catch (Throwable t) {
             logger.error("Failed to execute rule '{}': {}", rUID, t.getMessage());
@@ -977,8 +979,14 @@ public class RuleEngine implements RegistryChangeListener<ModuleType> {
             RuntimeCondition c = (RuntimeCondition) it.next();
             ConditionHandler tHandler = c.getModuleHandler();
             Map<String, Object> context = getContext(rule.getUID(), c.getConnections());
-            if (!tHandler.isSatisfied(Collections.unmodifiableMap(context))) {
+            boolean satisfied = tHandler.isSatisfied(Collections.unmodifiableMap(context));
+            if (!c.getNegated() && !satisfied) {
                 logger.debug("The condition '{}' of rule '{}' is unsatisfied.",
+                        new Object[] { c.getId(), rule.getUID() });
+                return false;
+            }
+            if (c.getNegated() && satisfied) {
+                logger.debug("The negated condition '{}' of rule '{}' is satisfied.",
                         new Object[] { c.getId(), rule.getUID() });
                 return false;
             }

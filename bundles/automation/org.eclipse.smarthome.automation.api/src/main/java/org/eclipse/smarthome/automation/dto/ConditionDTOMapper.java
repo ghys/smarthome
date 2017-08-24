@@ -25,6 +25,7 @@ public class ConditionDTOMapper extends ModuleDTOMapper {
         final ConditionDTO conditionDto = new ConditionDTO();
         fillProperties(condition, conditionDto);
         conditionDto.inputs = condition.getInputs();
+        conditionDto.negated = condition.getNegated();
         return conditionDto;
     }
 
@@ -33,6 +34,7 @@ public class ConditionDTOMapper extends ModuleDTOMapper {
                 new Configuration(conditionDto.configuration), conditionDto.inputs);
         condition.setLabel(conditionDto.label);
         condition.setDescription(conditionDto.description);
+        condition.setNegated(conditionDto.negated);
         return condition;
     }
 
