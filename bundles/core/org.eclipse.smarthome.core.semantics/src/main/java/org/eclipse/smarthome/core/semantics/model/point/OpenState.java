@@ -20,6 +20,6 @@ import org.eclipse.smarthome.core.semantics.model.TagInfo;
  * @author Generated from generateTagClasses.groovy - Initial contribution
  *
  */
-@TagInfo(id = "Point_Status_OpenState", label = "OpenState", description = "")
+@TagInfo(id = "Point_Status_OpenState", label = "OpenState", synonyms = "", description = "")
 public interface OpenState extends Status {
 }

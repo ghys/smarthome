@@ -21,6 +21,6 @@ import org.eclipse.smarthome.core.semantics.model.TagInfo;
  * @author Generated from generateTagClasses.groovy - Initial contribution
  *
  */
-@TagInfo(id = "Equipment_PowerOutlet", label = "Power Outlet", description = "")
+@TagInfo(id = "Equipment_PowerOutlet", label = "Power Outlet", synonyms = "Power Outlets", description = "")
 public interface PowerOutlet extends Equipment {
 }

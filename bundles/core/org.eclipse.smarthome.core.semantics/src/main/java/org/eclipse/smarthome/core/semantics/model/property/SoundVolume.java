@@ -21,6 +21,6 @@ import org.eclipse.smarthome.core.semantics.model.TagInfo;
  * @author Generated from generateTagClasses.groovy - Initial contribution
  *
  */
-@TagInfo(id = "Property_SoundVolume", label = "Sound Volume", description = "")
+@TagInfo(id = "Property_SoundVolume", label = "Sound Volume", synonyms = "", description = "")
 public interface SoundVolume extends Property {
 }

@@ -21,6 +21,6 @@ import org.eclipse.smarthome.core.semantics.model.TagInfo;
  * @author Generated from generateTagClasses.groovy - Initial contribution
  *
  */
-@TagInfo(id = "Equipment_RemoteControl", label = "Remote Control", description = "")
+@TagInfo(id = "Equipment_RemoteControl", label = "Remote Control", synonyms = "Remote Controls", description = "")
 public interface RemoteControl extends Equipment {
 }

@@ -21,6 +21,6 @@ import org.eclipse.smarthome.core.semantics.model.TagInfo;
  * @author Generated from generateTagClasses.groovy - Initial contribution
  *
  */
-@TagInfo(id = "Location_Indoor", label = "Indoor", description = "Anything that is inside a closed building")
+@TagInfo(id = "Location_Indoor", label = "Indoor", synonyms = "", description = "Anything that is inside a closed building")
 public interface Indoor extends Location {
 }

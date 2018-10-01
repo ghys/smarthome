@@ -20,6 +20,6 @@ import org.eclipse.smarthome.core.semantics.model.TagInfo;
  * @author Generated from generateTagClasses.groovy - Initial contribution
  *
  */
-@TagInfo(id = "Point_Command_Switch", label = "Switch", description = "")
+@TagInfo(id = "Point_Command_Switch", label = "Switch", synonyms = "", description = "")
 public interface Switch extends Command {
 }

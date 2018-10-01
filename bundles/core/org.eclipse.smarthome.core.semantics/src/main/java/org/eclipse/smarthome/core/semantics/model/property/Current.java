@@ -21,6 +21,6 @@ import org.eclipse.smarthome.core.semantics.model.TagInfo;
  * @author Generated from generateTagClasses.groovy - Initial contribution
  *
  */
-@TagInfo(id = "Property_Current", label = "Current", description = "")
+@TagInfo(id = "Property_Current", label = "Current", synonyms = "", description = "")
 public interface Current extends Property {
 }

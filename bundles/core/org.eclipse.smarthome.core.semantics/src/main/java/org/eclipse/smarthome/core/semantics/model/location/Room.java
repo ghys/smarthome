@@ -20,6 +20,6 @@ import org.eclipse.smarthome.core.semantics.model.TagInfo;
  * @author Generated from generateTagClasses.groovy - Initial contribution
  *
  */
-@TagInfo(id = "Location_Indoor_Room", label = "Room", description = "")
+@TagInfo(id = "Location_Indoor_Room", label = "Room", synonyms = "Rooms", description = "")
 public interface Room extends Indoor {
 }

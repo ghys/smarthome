@@ -29,6 +29,7 @@ public class Equipments {
     static final Set<Class<? extends Equipment>> EQUIPMENTS = new HashSet<>();
 
     static {
+        EQUIPMENTS.add(Equipment.class);
         EQUIPMENTS.add(Battery.class);
         EQUIPMENTS.add(Blinds.class);
         EQUIPMENTS.add(Camera.class);

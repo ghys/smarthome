@@ -21,6 +21,6 @@ import org.eclipse.smarthome.core.semantics.model.TagInfo;
  * @author Generated from generateTagClasses.groovy - Initial contribution
  *
  */
-@TagInfo(id = "Point_Sensor", label = "Sensor", description = "")
+@TagInfo(id = "Point_Sensor", label = "Sensor", synonyms = "", description = "")
 public interface Sensor extends Point {
 }

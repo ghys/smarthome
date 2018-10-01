@@ -21,6 +21,6 @@ import org.eclipse.smarthome.core.semantics.model.TagInfo;
  * @author Generated from generateTagClasses.groovy - Initial contribution
  *
  */
-@TagInfo(id = "Property_Presence", label = "Presence", description = "")
+@TagInfo(id = "Property_Presence", label = "Presence", synonyms = "", description = "")
 public interface Presence extends Property {
 }

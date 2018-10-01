@@ -19,6 +19,9 @@ def equipments = new TreeSet<String>()
 def points = new TreeSet<String>()
 def properties = new TreeSet<String>()
 
+def labelsFile = new FileWriter('../src/main/resources/tags.properties')
+labelsFile.write("# Generated content - do not edit!\n")
+
 for(line in parseCsv(new FileReader('SemanticTags.csv'), separator: ',')) {
     println "Processing Tag $line.Tag"
 
@@ -26,6 +29,7 @@ for(line in parseCsv(new FileReader('SemanticTags.csv'), separator: ',')) {
     tagSets.put(line.Tag,tagSet)
 
     createTagSetClass(line, tagSet)
+    appendLabelsFile(labelsFile, line, tagSet)
 
     switch(line.Type) {
         case "Location"            : locations.add(line.Tag); break;
@@ -34,12 +38,14 @@ for(line in parseCsv(new FileReader('SemanticTags.csv'), separator: ',')) {
         case "Property"            : properties.add(line.Tag); break;
         default : println "Unrecognized type " + line.Type
     }    
-    
-    createLocationsFile(locations)
-    createEquipmentsFile(equipments)
-    createPointsFile(points)
-    createPropertiesFile(properties)
 }
+
+labelsFile.close()
+
+createLocationsFile(locations)
+createEquipmentsFile(equipments)
+createPointsFile(points)
+createPropertiesFile(properties)
 
 println "\n\nTagSets:"
 for(String tagSet : tagSets) {
@@ -50,6 +56,7 @@ def createTagSetClass(def line, String tagSet) {
     def tag = line.Tag
     def type = line.Type
     def label = line.Label
+    def synonyms = line.Synonyms
     def desc = line.Description
     def parent = line.Parent
     def parentClass = parent ? parent : type
@@ -68,11 +75,19 @@ def createTagSetClass(def line, String tagSet) {
  * @author Generated from generateTagClasses.groovy - Initial contribution
  *
  */
-@TagInfo(id = "${tagSet}", label = "${label}", description = "${desc}")
+@TagInfo(id = "${tagSet}", label = "${label}", synonyms = "${synonyms}", description = "${desc}")
 public interface ${tag} extends ${parentClass} {
 }
 """)
     file.close()
+}
+
+def appendLabelsFile(FileWriter file, def line, String tagSet) {
+    file.write(tagSet + "=" + line.Label)
+    if(line.Synonyms) {
+        file.write("," + line.Synonyms.replaceAll(", ", ","))
+    }
+    file.write("\n")
 }
 
 def createLocationsFile(Set<String> locations) {
@@ -97,6 +112,7 @@ public class Locations {
     static final Set<Class<? extends Location>> LOCATIONS = new HashSet<>();
 
     static {
+        LOCATIONS.add(Location.class);
 """)    
     Iterator it = locations.iterator();
     while(it.hasNext() ) {
@@ -135,6 +151,7 @@ public class Equipments {
     static final Set<Class<? extends Equipment>> EQUIPMENTS = new HashSet<>();
 
     static {
+        EQUIPMENTS.add(Equipment.class);
 """)    
     Iterator it = equipments.iterator();
     while(it.hasNext() ) {
@@ -173,6 +190,7 @@ public class Points {
     static final Set<Class<? extends Point>> POINTS = new HashSet<>();
 
     static {
+        POINTS.add(Point.class);
 """)    
     Iterator it = points.iterator();
     while(it.hasNext() ) {
@@ -211,6 +229,7 @@ public class Properties {
     static final Set<Class<? extends Property>> PROPERTIES = new HashSet<>();
 
     static {
+        PROPERTIES.add(Property.class);
 """)    
     Iterator it = properties.iterator();
     while(it.hasNext() ) {

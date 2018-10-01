@@ -30,7 +30,7 @@ import org.eclipse.smarthome.core.items.ItemRegistry;
 import org.eclipse.smarthome.core.items.Metadata;
 import org.eclipse.smarthome.core.items.MetadataKey;
 import org.eclipse.smarthome.core.items.MetadataProvider;
-import org.eclipse.smarthome.core.semantics.TagService;
+import org.eclipse.smarthome.core.semantics.SemanticTags;
 import org.eclipse.smarthome.core.semantics.model.Equipment;
 import org.eclipse.smarthome.core.semantics.model.Location;
 import org.eclipse.smarthome.core.semantics.model.Point;
@@ -88,9 +88,6 @@ public class SemanticsMetadataProvider extends AbstractProvider<Metadata>
     @NonNullByDefault({})
     private ItemRegistry itemRegistry;
 
-    @NonNullByDefault({})
-    private TagService tagService;
-
     @Activate
     protected void activate() {
         for (Item item : itemRegistry.getAll()) {
@@ -114,15 +111,6 @@ public class SemanticsMetadataProvider extends AbstractProvider<Metadata>
         this.itemRegistry = null;
     }
 
-    @Reference
-    protected void setTagService(TagService tagService) {
-        this.tagService = tagService;
-    }
-
-    protected void unsetTagService(TagService tagService) {
-        this.tagService = null;
-    }
-
     @Override
     public Collection<Metadata> getAll() {
         return semantics.values();
@@ -137,7 +125,7 @@ public class SemanticsMetadataProvider extends AbstractProvider<Metadata>
     private void processItem(Item item) {
         MetadataKey key = new MetadataKey(NAMESPACE, item.getName());
         Map<String, Object> configuration = new HashMap<>();
-        Class<? extends Tag> type = tagService.getSemanticType(item);
+        Class<? extends Tag> type = SemanticTags.getSemanticType(item);
         if (type != null) {
             processProperties(item, configuration);
             processHierarchy(item, configuration);
@@ -158,11 +146,11 @@ public class SemanticsMetadataProvider extends AbstractProvider<Metadata>
      * @param configuration the metadata configuration that should be amended
      */
     private void processProperties(Item item, Map<String, Object> configuration) {
-        Class<? extends Tag> type = tagService.getSemanticType(item);
+        Class<? extends Tag> type = SemanticTags.getSemanticType(item);
         for (Entry<List<Class<? extends Tag>>, String> relation : RELATIONS_PROPERTY.entrySet()) {
             Class<? extends Tag> entityClass = relation.getKey().get(0);
             if (entityClass.isAssignableFrom(type)) {
-                Class<? extends Property> p = tagService.getProperty(item);
+                Class<? extends Property> p = SemanticTags.getProperty(item);
                 if (p != null) {
                     configuration.put(relation.getValue(), p.getAnnotation(TagInfo.class).id());
                 }
@@ -177,7 +165,7 @@ public class SemanticsMetadataProvider extends AbstractProvider<Metadata>
      * @param configuration the metadata configuration that should be amended
      */
     private void processHierarchy(Item item, Map<String, Object> configuration) {
-        Class<? extends Tag> type = tagService.getSemanticType(item);
+        Class<? extends Tag> type = SemanticTags.getSemanticType(item);
         if (type != null) {
             for (String parent : item.getGroupNames()) {
                 Item parentItem = itemRegistry.get(parent);
@@ -202,7 +190,7 @@ public class SemanticsMetadataProvider extends AbstractProvider<Metadata>
      * @param configuration the metadata configuration that should be amended
      */
     private void processParent(Class<? extends Tag> type, Item parentItem, Map<String, Object> configuration) {
-        Class<? extends Tag> typeParent = tagService.getSemanticType(parentItem);
+        Class<? extends Tag> typeParent = SemanticTags.getSemanticType(parentItem);
         if (typeParent == null) {
             return;
         }
@@ -227,7 +215,7 @@ public class SemanticsMetadataProvider extends AbstractProvider<Metadata>
      * @param configuration the metadata configuration that should be amended
      */
     private void processMember(Class<? extends Tag> type, Item memberItem, Map<String, Object> configuration) {
-        Class<? extends Tag> typeMember = tagService.getSemanticType(memberItem);
+        Class<? extends Tag> typeMember = SemanticTags.getSemanticType(memberItem);
         if (typeMember == null) {
             return;
         }

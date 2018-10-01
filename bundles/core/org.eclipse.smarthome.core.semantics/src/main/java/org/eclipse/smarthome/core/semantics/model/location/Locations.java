@@ -29,15 +29,22 @@ public class Locations {
     static final Set<Class<? extends Location>> LOCATIONS = new HashSet<>();
 
     static {
+        LOCATIONS.add(Location.class);
+        LOCATIONS.add(Attic.class);
+        LOCATIONS.add(Basement.class);
+        LOCATIONS.add(Bathroom.class);
         LOCATIONS.add(Bedroom.class);
         LOCATIONS.add(Building.class);
         LOCATIONS.add(Carport.class);
         LOCATIONS.add(Corridor.class);
+        LOCATIONS.add(FirstFloor.class);
         LOCATIONS.add(Floor.class);
         LOCATIONS.add(Garage.class);
         LOCATIONS.add(Garden.class);
+        LOCATIONS.add(GroundFloor.class);
         LOCATIONS.add(Indoor.class);
         LOCATIONS.add(Kitchen.class);
+        LOCATIONS.add(LivingRoom.class);
         LOCATIONS.add(Outdoor.class);
         LOCATIONS.add(Room.class);
         LOCATIONS.add(Terrace.class);

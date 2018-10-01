@@ -20,6 +20,6 @@ import org.eclipse.smarthome.core.semantics.model.TagInfo;
  * @author Generated from generateTagClasses.groovy - Initial contribution
  *
  */
-@TagInfo(id = "Location_Outdoor_Carport", label = "Carport", description = "")
+@TagInfo(id = "Location_Outdoor_Carport", label = "Carport", synonyms = "Carports", description = "")
 public interface Carport extends Outdoor {
 }

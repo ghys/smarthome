@@ -21,6 +21,6 @@ import org.eclipse.smarthome.core.semantics.model.TagInfo;
  * @author Generated from generateTagClasses.groovy - Initial contribution
  *
  */
-@TagInfo(id = "Property_Power", label = "Power", description = "")
+@TagInfo(id = "Property_Power", label = "Power", synonyms = "", description = "")
 public interface Power extends Property {
 }

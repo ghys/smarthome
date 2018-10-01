@@ -21,6 +21,6 @@ import org.eclipse.smarthome.core.semantics.model.TagInfo;
  * @author Generated from generateTagClasses.groovy - Initial contribution
  *
  */
-@TagInfo(id = "Point_Command", label = "Command", description = "")
+@TagInfo(id = "Point_Command", label = "Command", synonyms = "", description = "")
 public interface Command extends Point {
 }

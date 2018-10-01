@@ -20,6 +20,6 @@ import org.eclipse.smarthome.core.semantics.model.TagInfo;
  * @author Generated from generateTagClasses.groovy - Initial contribution
  *
  */
-@TagInfo(id = "Point_Status_LowBattery", label = "LowBattery", description = "")
+@TagInfo(id = "Point_Status_LowBattery", label = "LowBattery", synonyms = "", description = "")
 public interface LowBattery extends Status {
 }

@@ -29,6 +29,7 @@ public class Points {
     static final Set<Class<? extends Point>> POINTS = new HashSet<>();
 
     static {
+        POINTS.add(Point.class);
         POINTS.add(Alarm.class);
         POINTS.add(BinarySensor.class);
         POINTS.add(Command.class);

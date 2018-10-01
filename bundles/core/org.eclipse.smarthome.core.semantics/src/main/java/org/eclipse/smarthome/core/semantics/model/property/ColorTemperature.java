@@ -21,6 +21,6 @@ import org.eclipse.smarthome.core.semantics.model.TagInfo;
  * @author Generated from generateTagClasses.groovy - Initial contribution
  *
  */
-@TagInfo(id = "Property_ColorTemperature", label = "Color Temperature", description = "")
+@TagInfo(id = "Property_ColorTemperature", label = "Color Temperature", synonyms = "", description = "")
 public interface ColorTemperature extends Property {
 }

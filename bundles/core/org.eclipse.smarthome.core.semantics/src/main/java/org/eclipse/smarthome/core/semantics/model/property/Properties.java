@@ -29,6 +29,7 @@ public class Properties {
     static final Set<Class<? extends Property>> PROPERTIES = new HashSet<>();
 
     static {
+        PROPERTIES.add(Property.class);
         PROPERTIES.add(CO.class);
         PROPERTIES.add(CO2.class);
         PROPERTIES.add(ColorTemperature.class);

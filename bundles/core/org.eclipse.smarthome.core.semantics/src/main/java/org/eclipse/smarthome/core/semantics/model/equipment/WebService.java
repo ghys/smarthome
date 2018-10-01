@@ -21,6 +21,6 @@ import org.eclipse.smarthome.core.semantics.model.TagInfo;
  * @author Generated from generateTagClasses.groovy - Initial contribution
  *
  */
-@TagInfo(id = "Equipment_WebService", label = "Web Service", description = "")
+@TagInfo(id = "Equipment_WebService", label = "Web Service", synonyms = "Web Services", description = "")
 public interface WebService extends Equipment {
 }

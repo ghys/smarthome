@@ -21,6 +21,6 @@ import org.eclipse.smarthome.core.semantics.model.TagInfo;
  * @author Generated from generateTagClasses.groovy - Initial contribution
  *
  */
-@TagInfo(id = "Property_Frequency", label = "Frequency", description = "")
+@TagInfo(id = "Property_Frequency", label = "Frequency", synonyms = "", description = "")
 public interface Frequency extends Property {
 }

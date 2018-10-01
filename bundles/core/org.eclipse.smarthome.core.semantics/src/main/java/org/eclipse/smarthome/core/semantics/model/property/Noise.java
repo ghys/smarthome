@@ -21,6 +21,6 @@ import org.eclipse.smarthome.core.semantics.model.TagInfo;
  * @author Generated from generateTagClasses.groovy - Initial contribution
  *
  */
-@TagInfo(id = "Property_Noise", label = "Noise", description = "")
+@TagInfo(id = "Property_Noise", label = "Noise", synonyms = "", description = "")
 public interface Noise extends Property {
 }

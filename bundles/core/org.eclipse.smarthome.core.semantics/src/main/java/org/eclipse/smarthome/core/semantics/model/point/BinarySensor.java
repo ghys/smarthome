@@ -20,6 +20,6 @@ import org.eclipse.smarthome.core.semantics.model.TagInfo;
  * @author Generated from generateTagClasses.groovy - Initial contribution
  *
  */
-@TagInfo(id = "Point_Sensor_BinarySensor", label = "Binary Sensor", description = "A sensor that can provide a binary output")
+@TagInfo(id = "Point_Sensor_BinarySensor", label = "Binary Sensor", synonyms = "", description = "A sensor that can provide a binary output")
 public interface BinarySensor extends Sensor {
 }

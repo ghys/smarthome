@@ -21,6 +21,6 @@ import org.eclipse.smarthome.core.semantics.model.TagInfo;
  * @author Generated from generateTagClasses.groovy - Initial contribution
  *
  */
-@TagInfo(id = "Property_Voltage", label = "Voltage", description = "")
+@TagInfo(id = "Property_Voltage", label = "Voltage", synonyms = "", description = "")
 public interface Voltage extends Property {
 }

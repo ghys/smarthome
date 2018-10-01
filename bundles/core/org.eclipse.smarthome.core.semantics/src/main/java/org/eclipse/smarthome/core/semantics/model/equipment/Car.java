@@ -21,6 +21,6 @@ import org.eclipse.smarthome.core.semantics.model.TagInfo;
  * @author Generated from generateTagClasses.groovy - Initial contribution
  *
  */
-@TagInfo(id = "Equipment_Car", label = "Car", description = "")
+@TagInfo(id = "Equipment_Car", label = "Car", synonyms = "Cars", description = "")
 public interface Car extends Equipment {
 }

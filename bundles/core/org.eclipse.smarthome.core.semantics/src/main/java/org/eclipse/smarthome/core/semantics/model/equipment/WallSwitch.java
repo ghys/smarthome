@@ -21,6 +21,6 @@ import org.eclipse.smarthome.core.semantics.model.TagInfo;
  * @author Generated from generateTagClasses.groovy - Initial contribution
  *
  */
-@TagInfo(id = "Equipment_WallSwitch", label = "Wall Switch", description = "")
+@TagInfo(id = "Equipment_WallSwitch", label = "Wall Switch", synonyms = "Wall Switches", description = "")
 public interface WallSwitch extends Equipment {
 }
