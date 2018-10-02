@@ -13,11 +13,9 @@ Import-Package:
  org.eclipse.smarthome.core.library,
  org.eclipse.smarthome.core.library.items,
  org.eclipse.smarthome.core.library.types,
- org.eclipse.smarthome.core.semantics,
  org.eclipse.smarthome.core.types,
  org.eclipse.smarthome.test,
  org.eclipse.smarthome.test.java,
- org.eclipse.smarthome.test.storage,
  org.hamcrest;core=split,
  org.hamcrest.collection,
  org.hamcrest.core,
@@ -28,6 +26,5 @@ Import-Package:
  org.junit.runners,
  org.mockito,
  org.mockito.invocation,
- org.mockito.stubbing,
- org.osgi.service.cm
+ org.mockito.stubbing
 Automatic-Module-Name: org.eclipse.smarthome.core.test
