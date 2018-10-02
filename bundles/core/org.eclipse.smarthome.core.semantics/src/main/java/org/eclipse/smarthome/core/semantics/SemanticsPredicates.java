@@ -19,6 +19,7 @@ import org.eclipse.smarthome.core.items.Item;
 import org.eclipse.smarthome.core.semantics.model.Equipment;
 import org.eclipse.smarthome.core.semantics.model.Location;
 import org.eclipse.smarthome.core.semantics.model.Point;
+import org.eclipse.smarthome.core.semantics.model.Property;
 import org.eclipse.smarthome.core.semantics.model.Tag;
 
 /**
@@ -36,7 +37,10 @@ public class SemanticsPredicates {
      * @return created {@link Predicate}
      */
     public static Predicate<Item> isLocation() {
-        return i -> Location.class.isAssignableFrom(SemanticTags.getSemanticType(i));
+        return i -> {
+            Class<? extends Tag> semanticType = SemanticTags.getSemanticType(i);
+            return semanticType != null && Location.class.isAssignableFrom(semanticType);
+        };
     }
 
     /**
@@ -45,7 +49,10 @@ public class SemanticsPredicates {
      * @return created {@link Predicate}
      */
     public static Predicate<Item> isEquipment() {
-        return i -> Equipment.class.isAssignableFrom(SemanticTags.getSemanticType(i));
+        return i -> {
+            Class<? extends Tag> semanticType = SemanticTags.getSemanticType(i);
+            return semanticType != null && Equipment.class.isAssignableFrom(semanticType);
+        };
     }
 
     /**
@@ -54,7 +61,10 @@ public class SemanticsPredicates {
      * @return created {@link Predicate}
      */
     public static Predicate<Item> isPoint() {
-        return i -> Point.class.isAssignableFrom(SemanticTags.getSemanticType(i));
+        return i -> {
+            Class<? extends Tag> semanticType = SemanticTags.getSemanticType(i);
+            return semanticType != null && Point.class.isAssignableFrom(semanticType);
+        };
     }
 
     /**
@@ -64,6 +74,23 @@ public class SemanticsPredicates {
      * @return created {@link Predicate}
      */
     public static Predicate<Item> isA(Class<? extends Tag> type) {
-        return i -> type.isAssignableFrom(SemanticTags.getSemanticType(i));
+        return i -> {
+            Class<? extends Tag> semanticType = SemanticTags.getSemanticType(i);
+            return semanticType != null && type.isAssignableFrom(semanticType);
+        };
     }
+
+    /**
+     * Creates a {@link Predicate} which can be used to filter {@link Item}s that relates to a given property.
+     *
+     * @param type the semantic property to filter for
+     * @return created {@link Predicate}
+     */
+    public static Predicate<Item> relatesTo(Class<? extends Property> property) {
+        return i -> {
+            Class<? extends Tag> semanticProperty = SemanticTags.getProperty(i);
+            return semanticProperty != null && property.isAssignableFrom(semanticProperty);
+        };
+    }
+
 }
