@@ -19,7 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.smarthome.core.common.registry.AbstractProvider;
@@ -125,11 +127,13 @@ public class SemanticsMetadataProvider extends AbstractProvider<Metadata>
     private void processItem(Item item) {
         MetadataKey key = new MetadataKey(NAMESPACE, item.getName());
         Map<String, Object> configuration = new HashMap<>();
-        Class<? extends Tag> type = SemanticTags.getSemanticType(item);
-        if (type != null) {
+        Set<Class<? extends Tag>> types = SemanticTags.getSemanticTypes(item);
+        if (!types.isEmpty()) {
             processProperties(item, configuration);
             processHierarchy(item, configuration);
-            Metadata md = new Metadata(key, type.getAnnotation(TagInfo.class).id(), configuration);
+            Metadata md = new Metadata(key,
+                    types.stream().map(t -> t.getAnnotation(TagInfo.class).id()).collect(Collectors.joining(",")),
+                    configuration);
             Metadata oldMd = semantics.put(item.getName(), md);
             if (oldMd == null) {
                 notifyListenersAboutAddedElement(md);
@@ -146,13 +150,16 @@ public class SemanticsMetadataProvider extends AbstractProvider<Metadata>
      * @param configuration the metadata configuration that should be amended
      */
     private void processProperties(Item item, Map<String, Object> configuration) {
-        Class<? extends Tag> type = SemanticTags.getSemanticType(item);
-        for (Entry<List<Class<? extends Tag>>, String> relation : RELATIONS_PROPERTY.entrySet()) {
-            Class<? extends Tag> entityClass = relation.getKey().get(0);
-            if (entityClass.isAssignableFrom(type)) {
-                Class<? extends Property> p = SemanticTags.getProperty(item);
-                if (p != null) {
-                    configuration.put(relation.getValue(), p.getAnnotation(TagInfo.class).id());
+        Set<Class<? extends Tag>> types = SemanticTags.getSemanticTypes(item);
+        for (Class<? extends Tag> type : types) {
+            for (Entry<List<Class<? extends Tag>>, String> relation : RELATIONS_PROPERTY.entrySet()) {
+                Class<? extends Tag> entityClass = relation.getKey().get(0);
+                if (entityClass.isAssignableFrom(type)) {
+                    Set<Class<? extends Property>> properties = SemanticTags.getProperties(item);
+                    if (!properties.isEmpty()) {
+                        configuration.put(relation.getValue(), properties.stream()
+                                .map(p -> p.getAnnotation(TagInfo.class).id()).collect(Collectors.joining(",")));
+                    }
                 }
             }
         }
@@ -165,8 +172,8 @@ public class SemanticsMetadataProvider extends AbstractProvider<Metadata>
      * @param configuration the metadata configuration that should be amended
      */
     private void processHierarchy(Item item, Map<String, Object> configuration) {
-        Class<? extends Tag> type = SemanticTags.getSemanticType(item);
-        if (type != null) {
+        Set<Class<? extends Tag>> types = SemanticTags.getSemanticTypes(item);
+        for (Class<? extends Tag> type : types) {
             for (String parent : item.getGroupNames()) {
                 Item parentItem = itemRegistry.get(parent);
                 if (parentItem != null) {
@@ -190,18 +197,17 @@ public class SemanticsMetadataProvider extends AbstractProvider<Metadata>
      * @param configuration the metadata configuration that should be amended
      */
     private void processParent(Class<? extends Tag> type, Item parentItem, Map<String, Object> configuration) {
-        Class<? extends Tag> typeParent = SemanticTags.getSemanticType(parentItem);
-        if (typeParent == null) {
-            return;
-        }
-        for (Entry<List<Class<? extends Tag>>, String> relation : RELATIONS_PARENT.entrySet()) {
-            List<Class<? extends Tag>> relClasses = relation.getKey();
-            Class<? extends Tag> entityClass = relClasses.get(0);
-            Class<? extends Tag> parentClass = relClasses.get(1);
-            // process relations of locations
-            if (entityClass.isAssignableFrom(type)) {
-                if (parentClass.isAssignableFrom(typeParent)) {
-                    configuration.put(relation.getValue(), parentItem.getName());
+        Set<Class<? extends Tag>> typesParent = SemanticTags.getSemanticTypes(parentItem);
+        for (Class<? extends Tag> typeParent : typesParent) {
+            for (Entry<List<Class<? extends Tag>>, String> relation : RELATIONS_PARENT.entrySet()) {
+                List<Class<? extends Tag>> relClasses = relation.getKey();
+                Class<? extends Tag> entityClass = relClasses.get(0);
+                Class<? extends Tag> parentClass = relClasses.get(1);
+                // process relations of locations
+                if (entityClass.isAssignableFrom(type)) {
+                    if (parentClass.isAssignableFrom(typeParent)) {
+                        configuration.put(relation.getValue(), parentItem.getName());
+                    }
                 }
             }
         }
@@ -215,18 +221,17 @@ public class SemanticsMetadataProvider extends AbstractProvider<Metadata>
      * @param configuration the metadata configuration that should be amended
      */
     private void processMember(Class<? extends Tag> type, Item memberItem, Map<String, Object> configuration) {
-        Class<? extends Tag> typeMember = SemanticTags.getSemanticType(memberItem);
-        if (typeMember == null) {
-            return;
-        }
-        for (Entry<List<Class<? extends Tag>>, String> relation : RELATIONS_MEMBER.entrySet()) {
-            List<Class<? extends Tag>> relClasses = relation.getKey();
-            Class<? extends Tag> entityClass = relClasses.get(0);
-            Class<? extends Tag> parentClass = relClasses.get(1);
-            // process relations of locations
-            if (entityClass.isAssignableFrom(type)) {
-                if (parentClass.isAssignableFrom(typeMember)) {
-                    configuration.put(relation.getValue(), memberItem.getName());
+        Set<Class<? extends Tag>> typesMember = SemanticTags.getSemanticTypes(memberItem);
+        for (Class<? extends Tag> typeMember : typesMember) {
+            for (Entry<List<Class<? extends Tag>>, String> relation : RELATIONS_MEMBER.entrySet()) {
+                List<Class<? extends Tag>> relClasses = relation.getKey();
+                Class<? extends Tag> entityClass = relClasses.get(0);
+                Class<? extends Tag> parentClass = relClasses.get(1);
+                // process relations of locations
+                if (entityClass.isAssignableFrom(type)) {
+                    if (parentClass.isAssignableFrom(typeMember)) {
+                        configuration.put(relation.getValue(), memberItem.getName());
+                    }
                 }
             }
         }

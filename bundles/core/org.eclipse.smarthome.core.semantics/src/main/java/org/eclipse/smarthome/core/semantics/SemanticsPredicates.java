@@ -12,6 +12,7 @@
  */
 package org.eclipse.smarthome.core.semantics;
 
+import java.util.Set;
 import java.util.function.Predicate;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
@@ -38,8 +39,8 @@ public class SemanticsPredicates {
      */
     public static Predicate<Item> isLocation() {
         return i -> {
-            Class<? extends Tag> semanticType = SemanticTags.getSemanticType(i);
-            return semanticType != null && Location.class.isAssignableFrom(semanticType);
+            Set<Class<? extends Tag>> semanticTypes = SemanticTags.getSemanticTypes(i);
+            return semanticTypes.stream().anyMatch(t -> Location.class.isAssignableFrom(t));
         };
     }
 
@@ -50,8 +51,8 @@ public class SemanticsPredicates {
      */
     public static Predicate<Item> isEquipment() {
         return i -> {
-            Class<? extends Tag> semanticType = SemanticTags.getSemanticType(i);
-            return semanticType != null && Equipment.class.isAssignableFrom(semanticType);
+            Set<Class<? extends Tag>> semanticTypes = SemanticTags.getSemanticTypes(i);
+            return semanticTypes.stream().anyMatch(t -> Equipment.class.isAssignableFrom(t));
         };
     }
 
@@ -62,8 +63,8 @@ public class SemanticsPredicates {
      */
     public static Predicate<Item> isPoint() {
         return i -> {
-            Class<? extends Tag> semanticType = SemanticTags.getSemanticType(i);
-            return semanticType != null && Point.class.isAssignableFrom(semanticType);
+            Set<Class<? extends Tag>> semanticTypes = SemanticTags.getSemanticTypes(i);
+            return semanticTypes.stream().anyMatch(t -> Point.class.isAssignableFrom(t));
         };
     }
 
@@ -75,8 +76,8 @@ public class SemanticsPredicates {
      */
     public static Predicate<Item> isA(Class<? extends Tag> type) {
         return i -> {
-            Class<? extends Tag> semanticType = SemanticTags.getSemanticType(i);
-            return semanticType != null && type.isAssignableFrom(semanticType);
+            Set<Class<? extends Tag>> semanticTypes = SemanticTags.getSemanticTypes(i);
+            return semanticTypes.stream().anyMatch(t -> type.isAssignableFrom(t));
         };
     }
 
@@ -88,8 +89,8 @@ public class SemanticsPredicates {
      */
     public static Predicate<Item> relatesTo(Class<? extends Property> property) {
         return i -> {
-            Class<? extends Tag> semanticProperty = SemanticTags.getProperty(i);
-            return semanticProperty != null && property.isAssignableFrom(semanticProperty);
+            Set<Class<? extends Property>> semanticProperties = SemanticTags.getProperties(i);
+            return semanticProperties.stream().anyMatch(p -> property.isAssignableFrom(p));
         };
     }
 

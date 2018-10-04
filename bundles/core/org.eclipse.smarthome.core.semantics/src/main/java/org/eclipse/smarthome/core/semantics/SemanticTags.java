@@ -14,6 +14,7 @@ package org.eclipse.smarthome.core.semantics;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -22,6 +23,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.smarthome.core.items.Item;
 import org.eclipse.smarthome.core.semantics.model.Property;
@@ -77,8 +79,8 @@ public class SemanticTags {
     @Nullable
     public static Class<? extends Tag> getByLabelOrSynonym(String tagLabelOrSynonym, Locale locale) {
         return TAGS.values().stream().distinct()
-                .filter(t -> getLabelAndSynonyms(t, locale).contains(tagLabelOrSynonym.toLowerCase(locale)))
-                .findFirst().orElse(null);
+                .filter(t -> getLabelAndSynonyms(t, locale).contains(tagLabelOrSynonym.toLowerCase(locale))).findFirst()
+                .orElse(null);
     }
 
     public static List<String> getLabelAndSynonyms(Class<? extends Tag> tag, Locale locale) {
@@ -106,50 +108,52 @@ public class SemanticTags {
     }
 
     /**
-     * Determines the semantic entity type of an item, i.e. a sub-type of Location, Equipment or Point.
+     * Determines the semantic entity types of an item, i.e. sub-types of Location, Equipment or Point.
      *
      * @param item the item to get the semantic type for
-     * @return a sub-type of Location, Equipment or Point
+     * @return a list of sub-types of Location, Equipment or Point
      */
-    @Nullable
-    public static Class<? extends Tag> getSemanticType(Item item) {
+    @NonNull
+    public static Set<Class<? extends @NonNull Tag>> getSemanticTypes(Item item) {
         Set<String> tags = item.getTags();
+        Set<Class<? extends @NonNull Tag>> types = new HashSet<Class<? extends @NonNull Tag>>();
         for (String tag : tags) {
             Class<? extends Tag> type = getById(tag);
             if (type != null && !Property.class.isAssignableFrom(type)) {
-                return type;
+                types.add(type);
             }
         }
         // we haven't found any type as a tag, but if there is a Property tag, we can conclude that it is a Point
-        if (getProperty(item) != null) {
+        if (types.isEmpty() && !getProperties(item).isEmpty()) {
             StateDescription stateDescription = item.getStateDescription();
             if (stateDescription != null && stateDescription.isReadOnly()) {
-                return Sensor.class;
+                types.add(Sensor.class);
             } else {
-                return Command.class;
+                types.add(Command.class);
             }
-        } else {
-            return null;
         }
+
+        return types;
     }
 
     /**
-     * Determines the Property that a Point relates to.
+     * Determines the Properties that a Point relates to.
      *
-     * @param item the item to get the property for
-     * @return a sub-type of Property if the item represents a Point, otherwise null
+     * @param item the item to get the properties for
+     * @return the set of sub-types of Property if the item represents a Point
      */
     @SuppressWarnings("unchecked")
-    @Nullable
-    public static Class<? extends Property> getProperty(Item item) {
+    @NonNull
+    public static Set<Class<? extends @NonNull Property>> getProperties(Item item) {
+        Set<Class<? extends @NonNull Property>> properties = new HashSet<Class<? extends @NonNull Property>>();
         Set<String> tags = item.getTags();
         for (String tag : tags) {
             Class<? extends Tag> type = getById(tag);
             if (type != null && Property.class.isAssignableFrom(type)) {
-                return (Class<? extends Property>) type;
+                properties.add((Class<? extends Property>) type);
             }
         }
-        return null;
+        return properties;
     }
 
     private static void addTagSet(Class<? extends Tag> tagSet) {

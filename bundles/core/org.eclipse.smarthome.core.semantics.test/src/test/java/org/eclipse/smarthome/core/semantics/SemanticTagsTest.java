@@ -79,14 +79,14 @@ public class SemanticTagsTest {
 
     @Test
     public void testGetSemanticType() {
-        assertEquals(Bathroom.class, SemanticTags.getSemanticType(locationItem));
-        assertEquals(CleaningRobot.class, SemanticTags.getSemanticType(equipmentItem));
-        assertEquals(Sensor.class, SemanticTags.getSemanticType(pointItem));
+        assertTrue(SemanticTags.getSemanticTypes(locationItem).contains(Bathroom.class));
+        assertTrue(SemanticTags.getSemanticTypes(equipmentItem).contains(CleaningRobot.class));
+        assertTrue(SemanticTags.getSemanticTypes(pointItem).contains(Sensor.class));
     }
 
     @Test
     public void testGetProperty() {
-        assertEquals(Temperature.class, SemanticTags.getProperty(pointItem));
+        assertTrue(SemanticTags.getProperties(pointItem).contains(Temperature.class));
     }
 
 }
